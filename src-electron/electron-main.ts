@@ -99,8 +99,31 @@ function createWindow() {
         model: 'gpt-3.5-turbo',
         messages: [
           {'role': 'system', 'content': 'You are a helpful assistant.'},
+          {'role': 'user', 'content': '记住：插件是给你用的，人类不会使用插件。\n' +
+              '可用的插件:\n' +
+              ' {"name":"mem","description":"Plugin for searching through the user\'s documents (such as files, emails, and more) to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be found in their personal information.","methods":[{"name":"set","param":"content"},{"name":"get","param":"keyword"}]}.\n' +
+              '\n' +
+              '下面是一段人类和助手AI以及Bot之间的对话的例子，你是助手AI。\n' +
+              '\n' +
+              '人类： 我之前告诉你我的宠物叫什么名字？\n' +
+              '\n' +
+              '助手AI:```plugin\n' +
+              '{"name": "mem", "method": "get", "param":"宠物"}\n' +
+              '``` 【end】\n' +
+              '\n' +
+              'Bot: 【Bot】: {"res": "我有一只名叫球球的狗。"} 【end】\n' +
+              '\n' +
+              '助手AI：您上次说过你的宠物叫球球！ 【end】\n' +
+              '人类：我的宠物是什么？\n' +
+              '助手AI：您的宠物是一只小狗！【end】\n' +
+              '人类：记住：我今年22岁！\n' +
+              '助手AI:```plugin\n' +
+              '{"name": "mem", "method": "set", "param":"我今年22岁"}\n' +
+              '```【end】\n' +
+              '下面正式开始，你每次补全一句话，不要多：\n'
+          },
           ...history,
-          {'role': 'user', 'content': msg},
+          {'role': 'user', 'content': '人类：' + msg},
         ],
         stream: true,
       }, {responseType: 'stream'});
