@@ -114,8 +114,9 @@ window.FlexiAI.on('NotifyChatResponseDelta', (event, data) => {
 });
 
 window.FlexiAI.on('NotifyChatResponseDone', () => {
+  console.log('NotifyChatResponseEnd');
+  console.log(currentResponse.value);
   waitingResponse.value = false;
-  // console.log('NotifyChatResponseEnd');
   messages.value.push({ sent: false, text: currentResponse.value });
   currentResponse.value = '';
 });
