@@ -9,3 +9,11 @@
 /// <reference types="@quasar/app-vite" />
 
 declare module 'markdown-it';
+
+declare interface Window {
+  FlexiAI: {
+    send: (channel: string, ...args: any) => void;
+    sendSync: (channel: string, ...args: any) => any;
+    on: (channel: string, callback: (...args: any) => void) => void;
+  }
+}

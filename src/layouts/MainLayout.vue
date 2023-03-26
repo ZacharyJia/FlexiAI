@@ -56,7 +56,7 @@
   </q-layout>
 
   <q-dialog v-model="settingDialog" persistent>
-    <q-card>
+    <q-card style="min-width: 600px">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">设置</div>
         <q-space />
@@ -72,9 +72,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 import SettingComponent from 'components/SettingComponent.vue';
+import {useConfigStore} from 'stores/config-store';
 
 const settingDialog = ref(false);
 
@@ -128,6 +129,14 @@ const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+
+const configStore = useConfigStore();
+onMounted(() => {
+  configStore.loadConfig();
+  console.log(configStore);
+})
+
 </script>
 
 <style scoped>

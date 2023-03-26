@@ -27,3 +27,11 @@
  *   }
  * }
  */
+
+import {contextBridge, ipcRenderer} from 'electron';
+
+contextBridge.exposeInMainWorld('FlexiAI', {
+  send: (channel: string, ...args: any) => ipcRenderer.send(channel, ...args),
+  sendSync: (channel: string, ...args: any) => ipcRenderer.sendSync(channel, ...args),
+  on: (channel: string, callback: (...args: any) => void) => ipcRenderer.on(channel, callback),
+})
