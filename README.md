@@ -5,7 +5,7 @@ Another ChatGPT desktop client but with plugin support.
 **Note: this project is still under development.**
 
 ## Todo:
-- [ ] Proxy setting
+- [x] Proxy setting
 - [ ] 通信异常处理
 - [ ] 对话列表
 - [ ] 历史消息记录

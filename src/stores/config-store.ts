@@ -1,17 +1,24 @@
-import { defineStore } from 'pinia';
+import {defineStore} from 'pinia';
 
 export const useConfigStore = defineStore('config', {
   state: () => {
     return {
-      apiKey: '',
+      userConfig: {
+        apiKey: '',
+        proxy: {
+          enabled: false,
+          type: 'http',
+          host: '',
+          port: 0,
+        }
+      }
     }
   },
   getters: {
   },
   actions: {
     loadConfig() {
-      const config = window.FlexiAI.sendSync('loadConfig');
-      this.apiKey = config.apiKey;
+      this.userConfig = window.FlexiAI.sendSync('loadConfig');
     }
   },
 });

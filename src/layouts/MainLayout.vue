@@ -134,7 +134,6 @@ function toggleLeftDrawer() {
 const configStore = useConfigStore();
 onMounted(() => {
   configStore.loadConfig();
-  console.log(configStore);
 })
 
 </script>

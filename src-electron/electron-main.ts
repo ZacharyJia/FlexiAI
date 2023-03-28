@@ -20,7 +20,36 @@ let mainWindow: BrowserWindow | undefined;
 
 let config = {
   apiKey: '',
+  proxy: {
+    enabled: false,
+    type: 'http',
+    host: '',
+    port: 0,
+  }
 };
+
+function loadConfig() {
+  const configFile = path.join(app.getPath('home'), '.flexiAI', 'config.json');
+  if (fs.existsSync(configFile)) {
+    config = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
+  }
+}
+
+function setProxy() {
+  if (config.proxy.enabled) {
+    console.log(`使用代理服务器: ${config.proxy.host}:${config.proxy.port}`)
+    // 通过环境变量设置代理服务器
+    process.env['HTTP_PROXY'] = `${config.proxy.type}://${config.proxy.host}:${config.proxy.port}`;
+    process.env['HTTPS_PROXY'] = `${config.proxy.type}://${config.proxy.host}:${config.proxy.port}`;
+  } else {
+    process.env['HTTP_PROXY'] = '';
+    process.env['HTTPS_PROXY'] = '';
+  }
+}
+
+// 加载用户配置，设定代理服务器
+loadConfig();
+setProxy();
 
 function shouldUsePlugins(msg: string) {
   const configuration = new Configuration({
@@ -94,6 +123,11 @@ function extractFirstJson(str: string) {
 }
 
 function createWindow() {
+  calendarData.set('2023/03/27', [
+    { date: '2023/03/27', time: '12:00:00', event: '开会' },
+    { date: '2023/03/27', time: '17:00:00', event: '打羽毛球' },
+  ]);
+
   /**
    * Initial window options
    */
@@ -126,16 +160,8 @@ function createWindow() {
   });
 
   ipcMain.on('loadConfig', (event) => {
-    // 从配置文件加载，如果没有则使用默认配置
-     const configFile = path.join(app.getPath('home'), '.flexiAI', 'config.json');
-     if (fs.existsSync(configFile)) {
-       config = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
-       event.returnValue = config;
-     } else {
-       event.returnValue = {
-         apiKey: '',
-       };
-     }
+    loadConfig();
+    event.returnValue = config;
   });
 
   ipcMain.on('saveConfig', (event, newConfig) => {
@@ -147,6 +173,7 @@ function createWindow() {
     }
     fs.writeFileSync(path.join(configFolder, 'config.json'), JSON.stringify(newConfig));
     config = newConfig;
+    setProxy();
     mainWindow?.webContents.send('NotifySaveConfig', {
       status: 'success',
       msg: '保存成功',
