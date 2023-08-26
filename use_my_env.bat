@@ -1,0 +1,1 @@
+copy .env dist\AnyHelper\

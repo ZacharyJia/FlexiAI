@@ -1,15 +1,6 @@
-# Flexi AI (flexi-ai)
+# Quasar App (fe2)
 
 A Quasar Project
-
-## Todo:
-- [x] Proxy setting
-- [ ] 通信异常处理
-- [ ] 对话列表
-- [ ] 历史消息记录
-- [ ] 插件系统
-- [ ] ...
-
 
 ## Install the dependencies
 ```bash
@@ -47,4 +38,4 @@ quasar build
 ```
 
 ### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
